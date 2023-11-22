@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using WorkingApiWithFiles.Data;
+using WorkingApiWithFiles.Interfaces;
+using WorkingApiWithFiles.Services;
+
 namespace WorkingApiWithFiles
 {
     public class Program
@@ -5,6 +10,11 @@ namespace WorkingApiWithFiles
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IFileService,FileService>();
+            builder.Services.AddScoped<IUserRepository,UserService>();
 
             // Add services to the container.
 
